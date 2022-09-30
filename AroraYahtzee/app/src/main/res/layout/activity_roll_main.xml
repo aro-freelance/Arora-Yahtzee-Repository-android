@@ -82,14 +82,14 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/dice1_imagebutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 tools:src="@tools:sample/avatars" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/dice2_imagebutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -97,7 +97,7 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/dice3_imagebutton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -111,14 +111,14 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/dice4_imagebutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 tools:src="@tools:sample/avatars" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/dice5_imagebutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
