@@ -48,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:text="Button"
+            android:backgroundTint="#4A4A4A"
+            android:text="Cancel"
             app:cornerRadius="15dp" />
 
         <Button
@@ -57,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:text="Button"
+            android:backgroundTint="#2F8F33"
+            android:text="Record"
             app:cornerRadius="15dp" />
     </LinearLayout>
 
