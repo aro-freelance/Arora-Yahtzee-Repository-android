@@ -11,4 +11,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_screen);
     }
+
+
 }

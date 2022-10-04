@@ -30,7 +30,6 @@ public class AdapterHighScoreScreen extends RecyclerView.Adapter<AdapterHighScor
 
         public ViewHolder(View view) {
             super(view);
-            // Define click listener for the ViewHolder's View
 
             nameText = view.findViewById(R.id.name_highscore_row);
             scoreText = view.findViewById(R.id.score_highscore_row);
