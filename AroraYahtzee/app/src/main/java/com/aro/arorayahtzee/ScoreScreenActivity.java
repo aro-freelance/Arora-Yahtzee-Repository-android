@@ -53,8 +53,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
     ArrayList<Integer> valuesArray = new ArrayList<>();
 
-    //todo defaults (persistance)
-
     //stored score values
     Integer sOnes = 0;
     Integer sTwos = 0;
@@ -905,7 +903,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
     //record the value for the selected score card category
     // and close the score card (return to roll screen or end game)
     private void record(){
-        //todo
 
         //check what is selected and then save to persistent storage
         if(isSelectionMade){
@@ -1027,7 +1024,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
     }
 
-    //todo translate prepare... record and reset roll number to 0 before leaving this screen
+
     //call this when this screen is about to close in some way other than clicking the record button
     private void prepare(){
 
@@ -1080,6 +1077,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
     }
 
 
-    
+
 
 }
