@@ -140,6 +140,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
     }
 
+    //load saved score card values
     private void loadStoredScores(){
 
         //check if ones complete
@@ -401,6 +402,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
     }
 
 
+    //use the dice values to calculate possible values for each score card category
     private void checkPossibleScores(){
 
         //get dice values from roll activity
@@ -900,21 +902,184 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
     }
 
+    //record the value for the selected score card category
+    // and close the score card (return to roll screen or end game)
     private void record(){
         //todo
+
+        //check what is selected and then save to persistent storage
+        if(isSelectionMade){
+
+            if(scoreCardArray.get(0).isSelected){
+                //store value
+                editor.putInt("onesValue", scoreCardArray.get(0).value);
+                //store isComplete
+                editor.putBoolean("isOnesComplete", true);
+            }
+            if(scoreCardArray.get(1).isSelected){
+                //store value
+                editor.putInt("twosValue", scoreCardArray.get(1).value);
+                //store isComplete
+                editor.putBoolean("isTwosComplete", true);
+            }
+            if(scoreCardArray.get(2).isSelected){
+                //store value
+                editor.putInt("threesValue", scoreCardArray.get(2).value);
+                //store isComplete
+                editor.putBoolean("isThreesComplete", true);
+            }
+            if(scoreCardArray.get(3).isSelected){
+                //store value
+                editor.putInt("foursValue", scoreCardArray.get(3).value);
+                //store isComplete
+                editor.putBoolean("isFoursComplete", true);
+            }
+            if(scoreCardArray.get(4).isSelected){
+                //store value
+                editor.putInt("fivesValue", scoreCardArray.get(4).value);
+                //store isComplete
+                editor.putBoolean("isFivesComplete", true);
+            }
+            if(scoreCardArray.get(5).isSelected){
+                //store value
+                editor.putInt("sixesValue", scoreCardArray.get(5).value);
+                //store isComplete
+                editor.putBoolean("isSixesComplete", true);
+            }
+            if(scoreCardArray.get(8).isSelected){
+                //store value
+                editor.putInt("threeOfAKindValue", scoreCardArray.get(8).value);
+                //store isComplete
+                editor.putBoolean("isThreeOfAKindComplete", true);
+            }
+            if(scoreCardArray.get(9).isSelected){
+                //store value
+                editor.putInt("fourOfAKindValue", scoreCardArray.get(9).value);
+                //store isComplete
+                editor.putBoolean("isFourOfAKindComplete", true);
+            }
+            if(scoreCardArray.get(10).isSelected){
+                //store value
+                editor.putInt("fullHouseValue", scoreCardArray.get(10).value);
+                //store isComplete
+                editor.putBoolean("isFullHouseComplete", true);
+            }
+            if(scoreCardArray.get(11).isSelected){
+                //store value
+                editor.putInt("smallStraightValue", scoreCardArray.get(11).value);
+                //store isComplete
+                editor.putBoolean("isSmallStraightComplete", true);
+            }
+            if(scoreCardArray.get(12).isSelected){
+                //store value
+                editor.putInt("largeStraightValue", scoreCardArray.get(12).value);
+                //store isComplete
+                editor.putBoolean("isLargeStraightComplete", true);
+            }
+            if(scoreCardArray.get(13).isSelected){
+                //store value
+                editor.putInt("isYahtzeeValue", scoreCardArray.get(13).value);
+                //store isComplete
+                editor.putBoolean("isYahtzeeComplete", true);
+            }
+            if(scoreCardArray.get(14).isSelected){
+                //store value
+                editor.putInt("isChanceValue", scoreCardArray.get(14).value);
+                //store isComplete
+                editor.putBoolean("isChanceComplete", true);
+            }
+
+            if(isMultiYahtzee){
+                editor.putInt("numberOfYahtzeesValue", sNumberOfYahtzees);
+            }
+
+            //update grand total
+            editor.putInt("score", grandTotal);
+            Log.d("test", "score card: grand total = " + grandTotal);
+
+
+            checkEndGame();
+
+        }
+        //selection is not made
+        else{
+
+            //todo tell user to select something using an alert
+
+        }
+
+
     }
 
+
     private void cancelPressed(){
+
+        if(rollNumber < 3){
+
+            //todo close this screen and go to roll screen
+
+        }
+        else{
+
+            //todo tell user they have no more rolls and they must make a selection with alert
+
+        }
 
     }
 
     //todo translate prepare... record and reset roll number to 0 before leaving this screen
-//    private void prepare(){
-//
-//    }
+    //call this when this screen is about to close in some way other than clicking the record button
+    private void prepare(){
 
-    private void checkEndGame(){
-        //todo
+        //record if there is a selection
+        if(isSelectionMade){
+            //todo set the roll number in roll screen to 0
+            record();
+
+            //todo close this screen and open roll screen
+        }
+
+        else {
+            //todo store values
+        }
+
+
     }
+
+    //check if the game is over... if it is end the game
+    private void checkEndGame(){
+
+        boolean isEnd = false;
+        int categoryCompleteCounter = 0;
+
+        for (int i = 0; i < scoreCardArray.size(); i++) {
+
+            ScoreLineModel score = scoreCardArray.get(i);
+
+            if(score.isCompleted || score.isSelected){
+                categoryCompleteCounter = categoryCompleteCounter + 1;
+            }
+
+        }
+
+        if(categoryCompleteCounter >= 13){
+            isEnd = true;
+        }
+
+        if(isEnd){
+
+            Log.d("test", "score card: score = " + grandTotal);
+
+            //store the score
+            editor.putInt("score", grandTotal);
+
+            //todo go to high score screen
+
+        }
+
+    }
+
+
+    
 
 }
