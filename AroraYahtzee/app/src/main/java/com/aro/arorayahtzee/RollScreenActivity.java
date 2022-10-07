@@ -2,7 +2,9 @@ package com.aro.arorayahtzee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +14,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RollScreenActivity extends AppCompatActivity {
+
+    //todo add assets to project ... dice face images, sounds
 
     ImageButton diceButton1;
     ImageButton diceButton2;
@@ -48,8 +53,9 @@ public class RollScreenActivity extends AppCompatActivity {
     Integer diceNumberFour = 0;
     Integer diceNumberFive = 0;
 
-    //number of times user has rolled (max is 3)
+    //number of times user has rolled (max is 3 by convention of game)
     Integer rollNumber = 0;
+    Integer maxRolls = 3;
 
     Integer score = 0;
 
@@ -58,6 +64,7 @@ public class RollScreenActivity extends AppCompatActivity {
 
 
     //todo audioplayer roll sfx
+
     //todo audioplayer yahtzee sfx
     //todo audioplayer music
 
@@ -70,7 +77,18 @@ public class RollScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roll_main);
 
-        //todo initialize all the UI stuff buttons textview etc
+        diceButton1 = findViewById(R.id.dice1_imagebutton);
+        diceButton2 = findViewById(R.id.dice2_imagebutton);
+        diceButton3 = findViewById(R.id.dice3_imagebutton);
+        diceButton4 = findViewById(R.id.dice4_imagebutton);
+        diceButton5 = findViewById(R.id.dice5_imagebutton);
+
+        scoreCardButton = findViewById(R.id.scorecard_button);
+        rollButton = findViewById(R.id.roll_button);
+        quitButton = findViewById(R.id.quit_button);
+
+        scoreTextView = findViewById(R.id.score_textview);
+
 
 
 
@@ -86,45 +104,294 @@ public class RollScreenActivity extends AppCompatActivity {
             scoreCardButton.setVisibility(View.INVISIBLE);
         }
 
-        //todo dice title to ""?
+        scoreTextView.setText("");
 
-
-        //todo dice button enabled false
+        diceButton1.setEnabled(false);
+        diceButton2.setEnabled(false);
+        diceButton3.setEnabled(false);
+        diceButton4.setEnabled(false);
+        diceButton5.setEnabled(false);
 
         updateScore();
 
         //todo initialize roll sound
-
         //todo initialize yahtzee sound
 
         isMuted = pref.getBoolean("soundEffectMute", false);
 
-        //todo button on click listeners...
-        // remember to pass the button id to the dicebuttonselected method just pass an int to id
-        // which the dice buttons call
+        diceButton1.setOnClickListener((View v) -> {
+            diceButtonSelected(1);
+        });
+
+        diceButton2.setOnClickListener((View v) -> {
+            diceButtonSelected(2);
+        });
+
+        diceButton3.setOnClickListener((View v) -> {
+            diceButtonSelected(3);
+        });
+
+        diceButton4.setOnClickListener((View v) -> {
+            diceButtonSelected(4);
+        });
+
+        diceButton5.setOnClickListener((View v) -> {
+            diceButtonSelected(5);
+        });
+
+        rollButton.setOnClickListener((View v) -> {
+            rollButtonPressed();
+        });
+
+        quitButton.setOnClickListener((View v) -> {
+            quitToTitle();
+        });
+
+        scoreCardButton.setOnClickListener((View v) -> {
+            goToScoreScreen();
+        });
 
     }
 
     private void updateScore(){
-        //todo
+        //get stored score
+        score = pref.getInt("score", 0);
+
+        Log.d("test", "roll screen: score = " + score);
+
+        //set score to UI
+        scoreTextView.setText("Score : " + score);
     }
 
     private void diceButtonSelected(Integer diceId){
-        //todo
+
+        if(diceId != null){
+
+            switch (diceId){
+
+                case 1:
+                    if(isSelectedDice1){
+                        isSelectedDice1 = false;
+
+                        diceButton1.setBackgroundColor(Color.BLACK);
+
+                        if(!selectedButtonArray.contains(diceButton1)){
+                            selectedButtonArray.add(diceButton1);
+                            selectedValuesArray.add(diceNumberOne);
+                        }
+
+                    } else {
+                        isSelectedDice1 = true;
+
+                        diceButton1.setBackgroundColor(Color.TRANSPARENT);
+
+                        selectedButtonArray.remove(diceButton1);
+                        selectedValuesArray.remove(diceNumberOne);
+                    }
+
+                    break;
+
+                case 2:
+                    if(isSelectedDice2){
+                        isSelectedDice2 = false;
+
+                        diceButton2.setBackgroundColor(Color.BLACK);
+
+                        if(!selectedButtonArray.contains(diceButton2)){
+                            selectedButtonArray.add(diceButton2);
+                            selectedValuesArray.add(diceNumberTwo);
+                        }
+
+                    } else {
+                        isSelectedDice2 = true;
+
+                        diceButton2.setBackgroundColor(Color.TRANSPARENT);
+
+                        selectedButtonArray.remove(diceButton2);
+                        selectedValuesArray.remove(diceNumberTwo);
+                    }
+
+                    break;
+
+                case 3:
+                    if(isSelectedDice3){
+                        isSelectedDice3 = false;
+
+                        diceButton3.setBackgroundColor(Color.BLACK);
+
+                        if(!selectedButtonArray.contains(diceButton3)){
+                            selectedButtonArray.add(diceButton3);
+                            selectedValuesArray.add(diceNumberThree);
+                        }
+
+                    } else {
+                        isSelectedDice3 = true;
+
+                        diceButton3.setBackgroundColor(Color.TRANSPARENT);
+
+                        selectedButtonArray.remove(diceButton3);
+                        selectedValuesArray.remove(diceNumberThree);
+                    }
+
+                    break;
+
+                case 4:
+                    if(isSelectedDice4){
+                        isSelectedDice4 = false;
+
+                        diceButton4.setBackgroundColor(Color.BLACK);
+
+                        if(!selectedButtonArray.contains(diceButton4)){
+                            selectedButtonArray.add(diceButton4);
+                            selectedValuesArray.add(diceNumberFour);
+                        }
+
+                    } else {
+                        isSelectedDice4 = true;
+
+                        diceButton4.setBackgroundColor(Color.TRANSPARENT);
+
+                        selectedButtonArray.remove(diceButton4);
+                        selectedValuesArray.remove(diceNumberFour);
+                    }
+
+                    break;
+
+                case 5:
+                    if(isSelectedDice5){
+                        isSelectedDice5 = false;
+
+                        diceButton5.setBackgroundColor(Color.BLACK);
+
+                        if(!selectedButtonArray.contains(diceButton5)){
+                            selectedButtonArray.add(diceButton5);
+                            selectedValuesArray.add(diceNumberFive);
+                        }
+
+                    } else {
+                        isSelectedDice5 = true;
+
+                        diceButton5.setBackgroundColor(Color.TRANSPARENT);
+
+                        selectedButtonArray.remove(diceButton5);
+                        selectedValuesArray.remove(diceNumberFive);
+                    }
+
+                    break;
+
+                default:
+                    Log.d("test", "dice button selection error");
+
+
+            }
+        }
+
     }
 
     private void rollButtonPressed(){
-        //todo
+
+        diceButton1.setVisibility(View.VISIBLE);
+        diceButton2.setVisibility(View.VISIBLE);
+        diceButton3.setVisibility(View.VISIBLE);
+        diceButton4.setVisibility(View.VISIBLE);
+        diceButton5.setVisibility(View.VISIBLE);
+
+        scoreCardButton.setVisibility(View.VISIBLE);
+
+        diceButton1.setEnabled(true);
+        diceButton2.setEnabled(true);
+        diceButton3.setEnabled(true);
+        diceButton4.setEnabled(true);
+        diceButton5.setEnabled(true);
+
+        rollButton.setEnabled(false);
+
+        rollNumber = rollNumber + 1;
+
+        if(rollNumber <= maxRolls){
+            roll();
+        } else {
+            Log.d("test", "max rolls, show alert and go to scorecard after user closes alert");
+            //todo alert user that they have rolled the max times,
+            // then when they close alert go to scorecard screen
+
+        }
+
+        rollButton.setEnabled(true);
+
     }
 
     private void roll(){
-        //todo
+
+        if(!isMuted){
+            //todo play roll sfx
+        } else {
+            Log.d("test", "roll sound while muted");
+        }
+
+        //random number
+        //change imageview to image in array at the position
+        if(!isSelectedDice1){
+            diceNumberOne = new Random().nextInt(diceArrayImage.size()) + 1;
+            Image image = diceArrayImage.get(diceNumberOne - 1);
+            //todo set image to dice button one
+        }
+        if(!isSelectedDice2){
+            diceNumberTwo = new Random().nextInt(diceArrayImage.size()) + 1;
+            Image image = diceArrayImage.get(diceNumberTwo - 1);
+            //todo set image to dice button two
+        }
+        if(!isSelectedDice3){
+            diceNumberThree = new Random().nextInt(diceArrayImage.size()) + 1;
+            Image image = diceArrayImage.get(diceNumberThree - 1);
+            //todo set image to dice button three
+        }
+        if(!isSelectedDice4){
+            diceNumberFour = new Random().nextInt(diceArrayImage.size()) + 1;
+            Image image = diceArrayImage.get(diceNumberFour - 1);
+            //todo set image to dice button four
+        }
+        if(!isSelectedDice5){
+            diceNumberFive = new Random().nextInt(diceArrayImage.size()) + 1;
+            Image image = diceArrayImage.get(diceNumberFive - 1);
+            //set image to dice button five
+        }
+
+        if(!isMuted){
+            //delay yahtzee sound after roll sound
+            float secondToDelay = 0.6f;
+            if(  diceNumberOne == diceNumberTwo &&
+                 diceNumberOne == diceNumberThree &&
+                 diceNumberOne == diceNumberFour &&
+                 diceNumberOne == diceNumberFive){
+
+                //todo add delay { // play sfx yahtzee }
+
+                Log.d("test", "yahtzee sound after delay");
+            }
+        } else {
+            Log.d("test", "muted yahtzee sound");
+        }
+
+
+
     }
 
 
-    //todo this needs to be translated... the purpose of it is to pass info to score screen
-    private void prepare(){
-        //todo
+    private void goToScoreScreen(){
+
+        //todo send dice values and roll number to score screen (by intent?)
+
+
+        //go to score screen
+        Intent intent = new Intent(this, ScoreScreenActivity.class);
+        startActivity(intent);
+    }
+
+    private void quitToTitle(){
+        //go to title
+        Intent intent = new Intent(this, TitleActivity.class);
+        startActivity(intent);
     }
 
 

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,22 +86,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
     Boolean sIsYahtzeeCompleted = false;
     Boolean sIsChanceCompleted = false;
 
-    //current values
-
-    Integer cOnes = 0;
-    Integer cTwos = 0;
-    Integer cThrees = 0;
-    Integer cFours = 0;
-    Integer cFives = 0;
-    Integer cSixes = 0;
-    Integer cThreeOfAKind = 0;
-    Integer cFourOfAKind = 0;
-    Integer cFullHouse = 0;
-    Integer cSmallStraight = 0;
-    Integer cLargeStraight = 0;
-    Integer cYahtzee = 0;
-    Integer cChance = 0;
-    Integer cNumberOfYahtzees = 0;
 
 
     @Override
@@ -996,6 +981,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
 
             checkEndGame();
+            goToRollScreen();
 
         }
         //selection is not made
@@ -1008,12 +994,24 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
     }
 
+    private void goToRollScreen(){
+
+        //reset the roll number in roll screen
+        rollScreenActivity.rollNumber = 0;
+
+        //go to roll screen
+        Intent intent = new Intent(this, RollScreenActivity.class);
+        startActivity(intent);
+    }
+
 
     private void cancelPressed(){
 
-        if(rollNumber < 3){
+        if(rollNumber < rollScreenActivity.maxRolls){
 
-            //todo close this screen and go to roll screen
+            //close this screen and go to roll screen
+            Intent intent = new Intent(this, RollScreenActivity.class);
+            startActivity(intent);
 
         }
         else{
@@ -1026,11 +1024,13 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
 
     //call this when this screen is about to close in some way other than clicking the record button
+    //(unused)
     private void prepare(){
 
         //record if there is a selection
         if(isSelectionMade){
-            //todo set the roll number in roll screen to 0
+            //reset the roll number in roll screen
+            rollScreenActivity.rollNumber = 0;
             record();
 
             //todo close this screen and open roll screen
@@ -1070,7 +1070,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
             //store the score
             editor.putInt("score", grandTotal);
 
-            //todo go to high score screen
+            //go to high score screen
+            Intent intent = new Intent(this, HighScoreActivity.class);
+            startActivity(intent);
 
         }
 
