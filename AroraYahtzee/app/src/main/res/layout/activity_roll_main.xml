@@ -14,7 +14,7 @@
         android:layout_marginTop="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="64dp"
+        app:layout_constraintGuide_begin="93dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,13 +26,13 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="526dp"
+        app:layout_constraintGuide_begin="475dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/top_layout"
-        android:layout_width="415dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="8dp"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -72,7 +72,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/top_guideline" >
+        app:layout_constraintTop_toTopOf="@+id/top_guideline">
 
         <LinearLayout
             android:id="@+id/top_dice_layout"
@@ -84,16 +84,18 @@
             <ImageButton
                 android:id="@+id/dice1_imagebutton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:src="@tools:sample/avatars" />
+                android:backgroundTint="@android:color/transparent"
+                tools:src="@drawable/dice1" />
 
             <ImageButton
                 android:id="@+id/dice2_imagebutton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:src="@tools:sample/avatars" />
+                android:backgroundTint="@android:color/transparent"
+                tools:src="@drawable/dice1" />
         </LinearLayout>
 
         <ImageButton
@@ -101,7 +103,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:src="@tools:sample/avatars" />
+            android:backgroundTint="@android:color/transparent"
+            tools:src="@drawable/dice1" />
 
         <LinearLayout
             android:id="@+id/bottom_dice_layout"
@@ -113,36 +116,37 @@
             <ImageButton
                 android:id="@+id/dice4_imagebutton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:src="@tools:sample/avatars" />
+                android:backgroundTint="@android:color/transparent"
+                tools:src="@drawable/dice1" />
 
             <ImageButton
                 android:id="@+id/dice5_imagebutton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:src="@tools:sample/avatars" />
+                android:backgroundTint="@android:color/transparent"
+                tools:src="@drawable/dice1" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/bottom_layout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bottom_guideline">
+        app:layout_constraintTop_toBottomOf="@+id/middle_layout">
 
         <Button
             android:id="@+id/roll_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:text="Roll"
             app:cornerRadius="15dp" />
 
@@ -150,9 +154,6 @@
             android:id="@+id/scorecard_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:text="Score Card"
             app:cornerRadius="15dp" />
     </LinearLayout>

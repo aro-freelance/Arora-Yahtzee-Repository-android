@@ -1,8 +1,11 @@
 package com.aro.arorayahtzee;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +19,26 @@ import java.util.List;
 
 public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.ViewHolder>{
 
+    public static final String MyPREFERENCES = "myprefs";
+
+
     ScoreScreenActivity scoreScreenActivity = new ScoreScreenActivity();
 
 
     List<ScoreLineModel> scoreCardArray;
     private LayoutInflater mInflater;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
 
     //constructor
     AdapterScoreCard(Context context, List<ScoreLineModel> data) {
         this.mInflater = LayoutInflater.from(context);
         this.scoreCardArray = data;
+        this.pref = context.getSharedPreferences(MyPREFERENCES, context.MODE_PRIVATE);
+        this.editor = pref.edit();
+
+
     }
 
 
@@ -62,6 +74,8 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
+
+
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.titleText.setText(scoreCardArray.get(position).title);
@@ -93,22 +107,29 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
             //if it is NOT a multiyahtzee...
             if(!scoreScreenActivity.isMultiYahtzee){
 
+
                 //score update for unselect
                 if(scoreScreenActivity.selectedIndex >= 0){
 
+
                     if(scoreScreenActivity.selectedIndex < 6){
-                        scoreScreenActivity.upperTotal =
+                         scoreScreenActivity.upperTotal =
                                 scoreScreenActivity.upperTotal -
                                         scoreCardArray.get(scoreScreenActivity.selectedIndex).value;
+
                     } else {
-                        scoreScreenActivity.lowerTotal =
+                         scoreScreenActivity.lowerTotal =
                                 scoreScreenActivity.lowerTotal -
                                         scoreCardArray.get(scoreScreenActivity.selectedIndex).value;
-                    }
+                       }
                 }
 
-                scoreScreenActivity.isSelectionMade = true;
-                scoreScreenActivity.selectedIndex = viewHolder.getAdapterPosition();
+
+
+                editor.putBoolean("isSelectionMade", true);
+                editor.putInt("selectedIndexScoreCard", viewHolder.getAdapterPosition());
+                editor.apply();
+
 
                 //loop through array and set the selected row
                 int index = 0;
@@ -145,7 +166,8 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
                 scoreScreenActivity.grandTotal = scoreScreenActivity.upperTotal
                         + scoreScreenActivity.lowerTotal + scoreScreenActivity.bonus;
 
-                scoreScreenActivity.scoreText.setText("Score: " + scoreScreenActivity.grandTotal);
+
+                scoreScreenActivity.setScoreText();
 
                 scoreCardArray.get(6).value = scoreScreenActivity.upperTotal;
                 scoreCardArray.get(7).value = scoreScreenActivity.bonus;
@@ -199,8 +221,8 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
                 scoreScreenActivity.scoreText.setText("Score: " + scoreScreenActivity.grandTotal);
             }
 
-            //update recyclerview
-            scoreScreenActivity.adapter.notifyDataSetChanged();
+            //update recyclerview todo check and update. this is giving null object
+            //scoreScreenActivity.adapter.notifyDataSetChanged();
 
         });
 

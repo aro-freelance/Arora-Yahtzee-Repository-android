@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,8 +22,9 @@ import java.util.Collections;
 public class ScoreScreenActivity extends AppCompatActivity {
 
 
-    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-    SharedPreferences.Editor editor = pref.edit();
+    public static final String MyPREFERENCES = "myprefs";
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     TextView scoreText;
     Button cancelButton;
@@ -105,6 +108,18 @@ public class ScoreScreenActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
+        pref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        editor = pref.edit();
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            diceValue1 = bundle.getInt("diceValue1");
+            diceValue2 = bundle.getInt("diceValue2");
+            diceValue3 = bundle.getInt("diceValue3");
+            diceValue4 = bundle.getInt("diceValue4");
+            diceValue5 = bundle.getInt("diceValue5");
+            rollNumber = bundle.getInt("rollNumber");
+        }
 
         recordButton.setOnClickListener((View v) -> {
             record();
@@ -122,6 +137,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
         checkPossibleScores();
 
     }
+
 
     //load saved score card values
     private void loadStoredScores(){
@@ -388,14 +404,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
     //use the dice values to calculate possible values for each score card category
     private void checkPossibleScores(){
 
-        //get dice values from roll activity
-        diceValue1 = pref.getInt("diceValue1", 0);
-        diceValue2 = pref.getInt("diceValue2", 0);
-        diceValue3 = pref.getInt("diceValue3", 0);
-        diceValue4 = pref.getInt("diceValue4", 0);
-        diceValue5 = pref.getInt("diceValue5", 0);
-
-        //check dice values
         Log.d("test", "One: " + diceValue1 + " Two: " + diceValue2 + " Three: " + diceValue3
                 + " Four: " + diceValue4 + " Five: " + diceValue5);
 
@@ -817,6 +825,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
                     Log.d("test", "is multi yahtzee = " + isMultiYahtzee);
                     //todo show message to user and let them select where to put it (681 on xcode file)
 
+
                 }
             }
             yahtzeeScore = sYahtzee;
@@ -889,6 +898,12 @@ public class ScoreScreenActivity extends AppCompatActivity {
     // and close the score card (return to roll screen or end game)
     private void record(){
 
+        isSelectionMade = pref.getBoolean("isSelectionMade", false);
+        selectedIndex = pref.getInt("selectedIndexScoreCard", -1);
+
+        Log.d("test", "isSelectionMade = " +isSelectionMade
+                + " selectedIndex = " + selectedIndex);
+
         //check what is selected and then save to persistent storage
         if(isSelectionMade){
 
@@ -897,87 +912,103 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 editor.putInt("onesValue", scoreCardArray.get(0).value);
                 //store isComplete
                 editor.putBoolean("isOnesComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(1).isSelected){
                 //store value
                 editor.putInt("twosValue", scoreCardArray.get(1).value);
                 //store isComplete
                 editor.putBoolean("isTwosComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(2).isSelected){
                 //store value
                 editor.putInt("threesValue", scoreCardArray.get(2).value);
                 //store isComplete
                 editor.putBoolean("isThreesComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(3).isSelected){
                 //store value
                 editor.putInt("foursValue", scoreCardArray.get(3).value);
                 //store isComplete
                 editor.putBoolean("isFoursComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(4).isSelected){
                 //store value
                 editor.putInt("fivesValue", scoreCardArray.get(4).value);
                 //store isComplete
                 editor.putBoolean("isFivesComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(5).isSelected){
                 //store value
                 editor.putInt("sixesValue", scoreCardArray.get(5).value);
                 //store isComplete
                 editor.putBoolean("isSixesComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(8).isSelected){
                 //store value
                 editor.putInt("threeOfAKindValue", scoreCardArray.get(8).value);
                 //store isComplete
                 editor.putBoolean("isThreeOfAKindComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(9).isSelected){
                 //store value
                 editor.putInt("fourOfAKindValue", scoreCardArray.get(9).value);
                 //store isComplete
                 editor.putBoolean("isFourOfAKindComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(10).isSelected){
                 //store value
                 editor.putInt("fullHouseValue", scoreCardArray.get(10).value);
                 //store isComplete
                 editor.putBoolean("isFullHouseComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(11).isSelected){
                 //store value
                 editor.putInt("smallStraightValue", scoreCardArray.get(11).value);
                 //store isComplete
                 editor.putBoolean("isSmallStraightComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(12).isSelected){
                 //store value
                 editor.putInt("largeStraightValue", scoreCardArray.get(12).value);
                 //store isComplete
                 editor.putBoolean("isLargeStraightComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(13).isSelected){
                 //store value
                 editor.putInt("isYahtzeeValue", scoreCardArray.get(13).value);
                 //store isComplete
                 editor.putBoolean("isYahtzeeComplete", true);
+                editor.apply();
             }
             if(scoreCardArray.get(14).isSelected){
                 //store value
                 editor.putInt("isChanceValue", scoreCardArray.get(14).value);
                 //store isComplete
                 editor.putBoolean("isChanceComplete", true);
+                editor.apply();
             }
 
             if(isMultiYahtzee){
                 editor.putInt("numberOfYahtzeesValue", sNumberOfYahtzees);
+                editor.apply();
             }
 
             //update grand total
             editor.putInt("score", grandTotal);
+            editor.apply();
             Log.d("test", "score card: grand total = " + grandTotal);
+
 
 
             checkEndGame();
@@ -987,7 +1018,15 @@ public class ScoreScreenActivity extends AppCompatActivity {
         //selection is not made
         else{
 
-            //todo tell user to select something using an alert
+            //tell user to select something using an alert
+            new AlertDialog.Builder(this)
+                    .setTitle("Select a Category")
+                    .setMessage("Cannot record. Please select a category to record a score.")
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton("OK", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
         }
 
@@ -1016,7 +1055,16 @@ public class ScoreScreenActivity extends AppCompatActivity {
         }
         else{
 
-            //todo tell user they have no more rolls and they must make a selection with alert
+            //tell user they have no more rolls and they must make a selection with alert
+            new AlertDialog.Builder(this)
+                    .setTitle("Please make a selection")
+                    .setMessage("You have no remaining rolls. Please select a category and record your score.")
+
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton("OK", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
         }
 
@@ -1069,6 +1117,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
             //store the score
             editor.putInt("score", grandTotal);
+            editor.apply();
 
             //go to high score screen
             Intent intent = new Intent(this, HighScoreActivity.class);
@@ -1076,6 +1125,11 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void setScoreText(){
+
+        //scoreText.setText("Score: " + grandTotal);
     }
 
 

@@ -2,9 +2,13 @@ package com.aro.arorayahtzee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +23,8 @@ import java.util.Random;
 public class RollScreenActivity extends AppCompatActivity {
 
     //todo add assets to project ... dice face images, sounds
+
+    public static final String MyPREFERENCES = "myprefs";
 
     ImageButton diceButton1;
     ImageButton diceButton2;
@@ -39,13 +45,13 @@ public class RollScreenActivity extends AppCompatActivity {
     Boolean isSelectedDice5 = false;
 
     //array of dice side images
-    ArrayList<Image> diceArrayImage;
+    ArrayList<Integer> diceArrayImage = new ArrayList<>();
 
     //array of image buttons
-    ArrayList<ImageButton> selectedButtonArray;
+    ArrayList<ImageButton> selectedButtonArray = new ArrayList<>();
 
     //array of selected values
-    ArrayList<Integer> selectedValuesArray;
+    ArrayList<Integer> selectedValuesArray = new ArrayList<>();
 
     Integer diceNumberOne = 0;
     Integer diceNumberTwo = 0;
@@ -59,8 +65,9 @@ public class RollScreenActivity extends AppCompatActivity {
 
     Integer score = 0;
 
-    SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0);
-    SharedPreferences.Editor editor = pref.edit();
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
 
 
     //todo audioplayer roll sfx
@@ -90,7 +97,19 @@ public class RollScreenActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.score_textview);
 
 
+        pref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        editor = pref.edit();
 
+        //set dice images to array
+
+        diceArrayImage.add(R.drawable.dice1);
+        diceArrayImage.add(R.drawable.dice2);
+        diceArrayImage.add(R.drawable.dice3);
+        diceArrayImage.add(R.drawable.dice4);
+        diceArrayImage.add(R.drawable.dice5);
+        diceArrayImage.add(R.drawable.dice6);
+
+        //////
 
         Log.d("test", "Roll Number: " + rollNumber);
 
@@ -157,7 +176,7 @@ public class RollScreenActivity extends AppCompatActivity {
         //get stored score
         score = pref.getInt("score", 0);
 
-        Log.d("test", "roll screen: score = " + score);
+        Log.d("test", "roll screen update score: score = " + score);
 
         //set score to UI
         scoreTextView.setText("Score : " + score);
@@ -312,8 +331,25 @@ public class RollScreenActivity extends AppCompatActivity {
             roll();
         } else {
             Log.d("test", "max rolls, show alert and go to scorecard after user closes alert");
-            //todo alert user that they have rolled the max times,
-            // then when they close alert go to scorecard screen
+
+            //alert user that they have rolled the max times,
+            //then when they close alert go to scorecard screen
+            new AlertDialog.Builder(this)
+                    .setTitle("No Rolls Remaining")
+                    .setMessage("Record your roll on the scorecard.")
+
+                    // Specifying a listener allows you to take an action before dismissing the dialog.
+                    // The dialog is automatically dismissed when a dialog button is clicked.
+                    .setPositiveButton("Scorecard", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            goToScoreScreen();
+                        }
+                    })
+
+                    // A null listener allows the button to dismiss the dialog and take no further action.
+                    .setNegativeButton("Back", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
         }
 
@@ -333,28 +369,33 @@ public class RollScreenActivity extends AppCompatActivity {
         //change imageview to image in array at the position
         if(!isSelectedDice1){
             diceNumberOne = new Random().nextInt(diceArrayImage.size()) + 1;
-            Image image = diceArrayImage.get(diceNumberOne - 1);
-            //todo set image to dice button one
+            int imageInt = diceArrayImage.get(diceNumberOne - 1);
+            diceButton1.setImageResource(imageInt);
+            Log.d("test", "dice 1 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice2){
             diceNumberTwo = new Random().nextInt(diceArrayImage.size()) + 1;
-            Image image = diceArrayImage.get(diceNumberTwo - 1);
-            //todo set image to dice button two
+            int imageInt = diceArrayImage.get(diceNumberTwo - 1);
+            diceButton2.setImageResource(imageInt);
+            Log.d("test", "dice 2 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice3){
             diceNumberThree = new Random().nextInt(diceArrayImage.size()) + 1;
-            Image image = diceArrayImage.get(diceNumberThree - 1);
-            //todo set image to dice button three
+            int imageInt = diceArrayImage.get(diceNumberThree - 1);
+            diceButton3.setImageResource(imageInt);
+            Log.d("test", "dice 3 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice4){
             diceNumberFour = new Random().nextInt(diceArrayImage.size()) + 1;
-            Image image = diceArrayImage.get(diceNumberFour - 1);
-            //todo set image to dice button four
+            int imageInt = diceArrayImage.get(diceNumberFour - 1);
+            diceButton4.setImageResource(imageInt);
+            Log.d("test", "dice 4 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice5){
             diceNumberFive = new Random().nextInt(diceArrayImage.size()) + 1;
-            Image image = diceArrayImage.get(diceNumberFive - 1);
-            //set image to dice button five
+            int imageInt = diceArrayImage.get(diceNumberFive - 1);
+            diceButton5.setImageResource(imageInt);
+            Log.d("test", "dice 5 selected. imageInt = " + imageInt);
         }
 
         if(!isMuted){
@@ -380,11 +421,15 @@ public class RollScreenActivity extends AppCompatActivity {
 
     private void goToScoreScreen(){
 
-        //todo send dice values and roll number to score screen (by intent?)
-
-
+        //send dice values and roll number to score screen by intent
         //go to score screen
         Intent intent = new Intent(this, ScoreScreenActivity.class);
+        intent.putExtra("diceValue1", diceNumberOne);
+        intent.putExtra("diceValue2", diceNumberTwo);
+        intent.putExtra("diceValue3", diceNumberThree);
+        intent.putExtra("diceValue4", diceNumberFour);
+        intent.putExtra("diceValue5", diceNumberFive);
+        intent.putExtra("rollNumber", rollNumber);
         startActivity(intent);
     }
 
