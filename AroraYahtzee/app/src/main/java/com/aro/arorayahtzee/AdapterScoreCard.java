@@ -167,8 +167,6 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
                         + scoreScreenActivity.lowerTotal + scoreScreenActivity.bonus;
 
 
-                scoreScreenActivity.setScoreText();
-
                 scoreCardArray.get(6).value = scoreScreenActivity.upperTotal;
                 scoreCardArray.get(7).value = scoreScreenActivity.bonus;
                 scoreCardArray.get(16).value = scoreScreenActivity.lowerTotal;

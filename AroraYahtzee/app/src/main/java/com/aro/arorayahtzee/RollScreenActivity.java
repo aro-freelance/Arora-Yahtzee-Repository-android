@@ -111,8 +111,6 @@ public class RollScreenActivity extends AppCompatActivity {
 
         //////
 
-        Log.d("test", "Roll Number: " + rollNumber);
-
 
         if(rollNumber == 0){
             diceButton1.setVisibility(View.INVISIBLE);
@@ -132,6 +130,8 @@ public class RollScreenActivity extends AppCompatActivity {
         diceButton5.setEnabled(false);
 
         updateScore();
+
+        rollNumber = pref.getInt("rollNumber", 0);
 
         //todo initialize roll sound
         //todo initialize yahtzee sound

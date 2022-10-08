@@ -1012,7 +1012,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
 
             checkEndGame();
-            goToRollScreen();
+
 
         }
         //selection is not made
@@ -1036,7 +1036,8 @@ public class ScoreScreenActivity extends AppCompatActivity {
     private void goToRollScreen(){
 
         //reset the roll number in roll screen
-        rollScreenActivity.rollNumber = 0;
+        editor.putInt("rollNumber", 0);
+        editor.apply();
 
         //go to roll screen
         Intent intent = new Intent(this, RollScreenActivity.class);
@@ -1046,7 +1047,13 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
     private void cancelPressed(){
 
-        if(rollNumber < rollScreenActivity.maxRolls){
+        Log.d("test", "rollNumber = " + rollNumber);
+
+        if(rollNumber < 3){
+
+            //send the roll number
+            editor.putInt("rollNumber", rollNumber);
+            editor.apply();
 
             //close this screen and go to roll screen
             Intent intent = new Intent(this, RollScreenActivity.class);
@@ -1113,7 +1120,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
         if(isEnd){
 
-            Log.d("test", "score card: score = " + grandTotal);
+            Log.d("test", "isEnd. score = " + grandTotal);
 
             //store the score
             editor.putInt("score", grandTotal);
@@ -1123,14 +1130,12 @@ public class ScoreScreenActivity extends AppCompatActivity {
             Intent intent = new Intent(this, HighScoreActivity.class);
             startActivity(intent);
 
+        } else {
+            goToRollScreen();
         }
 
     }
 
-    public void setScoreText(){
-
-        //scoreText.setText("Score: " + grandTotal);
-    }
 
 
 
