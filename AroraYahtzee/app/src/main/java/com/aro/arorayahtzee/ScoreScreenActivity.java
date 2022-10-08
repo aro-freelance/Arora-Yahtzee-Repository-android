@@ -90,6 +90,24 @@ public class ScoreScreenActivity extends AppCompatActivity {
     Boolean sIsChanceCompleted = false;
 
 
+    //current score values
+    Integer cOnes = 0;
+    Integer cTwos = 0;
+    Integer cThrees = 0;
+    Integer cFours = 0;
+    Integer cFives = 0;
+    Integer cSixes = 0;
+    Integer cThreeOfAKind = 0;
+    Integer cFourOfAKind = 0;
+    Integer cFullHouse = 0;
+    Integer cSmallStraight = 0;
+    Integer cLargeStraight = 0;
+    Integer cYahtzee = 0;
+    Integer cChance = 0;
+    Integer cNumberOfYahtzees = 0;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -345,6 +363,10 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 sChance = tChance;
             }
         }
+
+        //todo upper and lower total is updating incorrectly on scorecard screen.
+        // 1. endlessly adds when selecting and  reselecting
+        // 2. does not keep previous score and add when displaying
 
         upperTotal = sOnes + sTwos + sThrees + sFours + sFives + sSixes;
 
@@ -913,6 +935,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isOnesComplete", true);
                 editor.apply();
+                cOnes = scoreCardArray.get(0).value;
+            } else {
+                cOnes = sOnes;
             }
             if(scoreCardArray.get(1).isSelected){
                 //store value
@@ -920,6 +945,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isTwosComplete", true);
                 editor.apply();
+                cTwos = scoreCardArray.get(1).value;
+            } else {
+                cTwos = sOnes;
             }
             if(scoreCardArray.get(2).isSelected){
                 //store value
@@ -927,6 +955,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isThreesComplete", true);
                 editor.apply();
+                cThrees = scoreCardArray.get(2).value;
+            } else {
+                cThrees = sThrees;
             }
             if(scoreCardArray.get(3).isSelected){
                 //store value
@@ -934,6 +965,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isFoursComplete", true);
                 editor.apply();
+                cFours = scoreCardArray.get(3).value;
+            } else {
+                cFours = sFours;
             }
             if(scoreCardArray.get(4).isSelected){
                 //store value
@@ -941,6 +975,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isFivesComplete", true);
                 editor.apply();
+                cFives = scoreCardArray.get(4).value;
+            } else {
+                cFives = sFives;
             }
             if(scoreCardArray.get(5).isSelected){
                 //store value
@@ -948,6 +985,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isSixesComplete", true);
                 editor.apply();
+                cSixes = scoreCardArray.get(5).value;
+            } else {
+                cSixes = sSixes;
             }
             if(scoreCardArray.get(8).isSelected){
                 //store value
@@ -955,6 +995,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isThreeOfAKindComplete", true);
                 editor.apply();
+                cThreeOfAKind = scoreCardArray.get(8).value;
+            } else {
+                cThreeOfAKind = sThreeOfAKind;
             }
             if(scoreCardArray.get(9).isSelected){
                 //store value
@@ -962,6 +1005,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isFourOfAKindComplete", true);
                 editor.apply();
+                cFourOfAKind = scoreCardArray.get(9).value;
+            } else {
+                cFourOfAKind = sFourOfAKind;
             }
             if(scoreCardArray.get(10).isSelected){
                 //store value
@@ -969,6 +1015,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isFullHouseComplete", true);
                 editor.apply();
+                cFullHouse = scoreCardArray.get(10).value;
+            } else {
+                cFullHouse = sFullHouse;
             }
             if(scoreCardArray.get(11).isSelected){
                 //store value
@@ -976,6 +1025,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isSmallStraightComplete", true);
                 editor.apply();
+                cSmallStraight = scoreCardArray.get(11).value;
+            } else {
+                cSmallStraight = sSmallStraight;
             }
             if(scoreCardArray.get(12).isSelected){
                 //store value
@@ -983,6 +1035,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isLargeStraightComplete", true);
                 editor.apply();
+                cLargeStraight = scoreCardArray.get(12).value;
+            } else {
+                cLargeStraight = sLargeStraight;
             }
             if(scoreCardArray.get(13).isSelected){
                 //store value
@@ -990,6 +1045,9 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isYahtzeeComplete", true);
                 editor.apply();
+                cYahtzee = scoreCardArray.get(13).value;
+            } else {
+                cYahtzee = sYahtzee;
             }
             if(scoreCardArray.get(14).isSelected){
                 //store value
@@ -997,12 +1055,27 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 //store isComplete
                 editor.putBoolean("isChanceComplete", true);
                 editor.apply();
+                cChance = scoreCardArray.get(14).value;
+            } else {
+                cChance = sChance;
             }
 
             if(isMultiYahtzee){
                 editor.putInt("numberOfYahtzeesValue", sNumberOfYahtzees);
                 editor.apply();
+                cNumberOfYahtzees = scoreCardArray.get(15).value;
+            } else {
+                cNumberOfYahtzees = sNumberOfYahtzees;
             }
+
+            //UPPER TOTAL
+            upperTotal = cOnes + cTwos + cThrees + cFours + cFives + cSixes;
+
+            //LOWER TOTAL
+            lowerTotal = cThreeOfAKind + cFourOfAKind + cFullHouse + cSmallStraight
+                    + cLargeStraight + cYahtzee + cChance + (cNumberOfYahtzees * 100);
+
+            grandTotal = upperTotal + lowerTotal;
 
             //update grand total
             editor.putInt("score", grandTotal);

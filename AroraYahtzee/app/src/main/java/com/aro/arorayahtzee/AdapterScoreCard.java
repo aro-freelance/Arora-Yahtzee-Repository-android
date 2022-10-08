@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +104,9 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
         viewHolder.button.setOnClickListener((View v) -> {
 
             viewHolder.button.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+
+
+            //also todo send values back to roll screen from score screen annd set dice images
 
             //if it is NOT a multiyahtzee...
             if(!scoreScreenActivity.isMultiYahtzee){
@@ -220,7 +224,7 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
             }
 
             //update recyclerview todo check and update. this is giving null object
-            //scoreScreenActivity.adapter.notifyDataSetChanged();
+            this.notifyDataSetChanged();
 
         });
 

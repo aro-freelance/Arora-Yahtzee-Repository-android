@@ -2,7 +2,9 @@ package com.aro.arorayahtzee;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +16,9 @@ public class TitleActivity extends AppCompatActivity {
     Button highScoreButton;
 
 
-    //todo user defaults
+    public static final String MyPREFERENCES = "myprefs";
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     Boolean isMuted = false;
 
@@ -32,6 +36,9 @@ public class TitleActivity extends AppCompatActivity {
         newGameButton = findViewById(R.id.newgame_button);
         optionsButton = findViewById(R.id.options_button);
         highScoreButton = findViewById(R.id.highscore_button);
+
+        pref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        editor = pref.edit();
 
         resetGameData();
 
@@ -84,9 +91,40 @@ public class TitleActivity extends AppCompatActivity {
 
     private void resetGameData(){
 
-        //todo reset all defaults
-        //ex. in xcode... defaults.removeObject(forKey: "onesValue");
-        //etc... for all values on score sheet
+        //reset all defaults
+        editor.remove("onesValue");
+        editor.remove("isOnesComplete");
+        editor.remove("twosValue");
+        editor.remove("isTwosComplete");
+        editor.remove("threesValue");
+        editor.remove("isThreesComplete");
+        editor.remove("foursValue");
+        editor.remove("isFoursComplete");
+        editor.remove("fivesValue");
+        editor.remove("isFivesComplete");
+        editor.remove("sixesValue");
+        editor.remove("isSixesComplete");
+        editor.remove("threeOfAKindValue");
+        editor.remove("isThreeOfAKindComplete");
+        editor.remove("fourOfAKindValue");
+        editor.remove("isFourOfAKindComplete");
+        editor.remove("fullHouseValue");
+        editor.remove("isFullHouseComplete");
+        editor.remove("smallStraightValue");
+        editor.remove("isSmallStraightComplete");
+        editor.remove("largeStraightValue");
+        editor.remove("isLargeStraightComplete");
+        editor.remove("isYahtzeeValue");
+        editor.remove("isYahtzeeComplete");
+        editor.remove("isChanceValue");
+        editor.remove("isChanceComplete");
+        editor.remove("numberOfYahtzeesValue");
+        editor.remove("isSelectionMade");
+        editor.remove("selectedIndexScoreCard");
+        editor.remove("rollNumber");
+        editor.remove("score");
+        editor.apply();
+
 
     }
 
