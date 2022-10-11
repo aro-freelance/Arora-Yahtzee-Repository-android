@@ -230,9 +230,6 @@ public class RollScreenActivity extends AppCompatActivity {
 
     private void diceButtonSelected(Integer diceId){
 
-        //todo unselect not working... i.e. if i click a dice and then click again it does not unselect it
-        //todo also add a visual indicator of it being selected
-
         if(diceId != null){
 
             switch (diceId){

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
 
 
     // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
@@ -75,10 +77,6 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
-
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
         viewHolder.titleText.setText(scoreCardArray.get(position).title);
         viewHolder.valueText.setText(scoreCardArray.get(position).value.toString());
 
@@ -98,15 +96,11 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
             viewHolder.button.setVisibility(View.INVISIBLE);
         }
 
-        //todo translate cell.closure
         //button clicked toggle the selected item, store the index of it,
         // and give the user a visual cue that it was selected
         viewHolder.button.setOnClickListener((View v) -> {
 
-            viewHolder.button.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
 
-
-            //also todo send values back to roll screen from score screen annd set dice images
 
             //if it is NOT a multiyahtzee...
             if(!scoreScreenActivity.isMultiYahtzee){
@@ -144,10 +138,12 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
                     if(score.isSelected){
                         score.isSelected = false;
                     }
-
-                    if(index == position){
+                    //only run this if it wasn't just unselected...
+                    // otherwise it will immediately be reselected
+                    else if(index == position){
                         score.isSelected = true;
                     }
+
 
                     index = index +1;
                 }
@@ -197,8 +193,9 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
                     if(score.isSelected){
                         score.isSelected = false;
                     }
-
-                    if(index == position){
+                    //only run this if it wasn't just unselected...
+                    // otherwise it will immediately be reselected
+                    else if(index == position){
                         score.isSelected = true;
                     }
 
@@ -223,10 +220,15 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
                 scoreScreenActivity.scoreText.setText("Score: " + scoreScreenActivity.grandTotal);
             }
 
+
             //update recyclerview todo check and update. this is giving null object
             this.notifyDataSetChanged();
 
+
+
         });
+
+
 
     }
 
