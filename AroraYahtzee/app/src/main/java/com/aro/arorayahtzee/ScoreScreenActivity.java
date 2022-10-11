@@ -21,6 +21,9 @@ import java.util.Collections;
 
 public class ScoreScreenActivity extends AppCompatActivity {
 
+    //todo bug with yahtzee and chance display. showing 0 after a score is recorded
+    //todo on cancel pressed (or back?) send the dice values back to roll screen and set dice to the appropriate images
+
 
     public static final String MyPREFERENCES = "myprefs";
     SharedPreferences pref;

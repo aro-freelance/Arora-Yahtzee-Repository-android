@@ -10,7 +10,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RollScreenActivity extends AppCompatActivity {
-
-    //todo add assets to project ... dice face images, sounds
 
     public static final String MyPREFERENCES = "myprefs";
 
@@ -69,11 +70,14 @@ public class RollScreenActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
+    MediaPlayer rollsSFXPlayer;
+    MediaPlayer yahtzeeSFXPlayer;
 
-    //todo audioplayer roll sfx
 
-    //todo audioplayer yahtzee sfx
-    //todo audioplayer music
+    //todo add music,
+    // start() in onCreate
+    // and add a music mute bool and button to options screen
+    MediaPlayer musicPlayer;
 
     Boolean isMuted = false;
 
@@ -133,8 +137,11 @@ public class RollScreenActivity extends AppCompatActivity {
 
         rollNumber = pref.getInt("rollNumber", 0);
 
-        //todo initialize roll sound
-        //todo initialize yahtzee sound
+        //initialize roll sound
+        rollsSFXPlayer = MediaPlayer.create(this, R.raw.dice4);
+
+        //initialize yahtzee sound
+        yahtzeeSFXPlayer = MediaPlayer.create(this, R.raw.yahtzee1crop);
 
         isMuted = pref.getBoolean("soundEffectMute", false);
 
@@ -363,7 +370,8 @@ public class RollScreenActivity extends AppCompatActivity {
     private void roll(){
 
         if(!isMuted){
-            //todo play roll sfx
+            //play roll sfx
+            rollsSFXPlayer.start();
         } else {
             Log.d("test", "roll sound while muted");
         }
@@ -374,31 +382,31 @@ public class RollScreenActivity extends AppCompatActivity {
             diceNumberOne = new Random().nextInt(diceArrayImage.size()) + 1;
             int imageInt = diceArrayImage.get(diceNumberOne - 1);
             diceButton1.setImageResource(imageInt);
-            Log.d("test", "dice 1 selected. imageInt = " + imageInt);
+            //Log.d("test", "dice 1 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice2){
             diceNumberTwo = new Random().nextInt(diceArrayImage.size()) + 1;
             int imageInt = diceArrayImage.get(diceNumberTwo - 1);
             diceButton2.setImageResource(imageInt);
-            Log.d("test", "dice 2 selected. imageInt = " + imageInt);
+            //Log.d("test", "dice 2 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice3){
             diceNumberThree = new Random().nextInt(diceArrayImage.size()) + 1;
             int imageInt = diceArrayImage.get(diceNumberThree - 1);
             diceButton3.setImageResource(imageInt);
-            Log.d("test", "dice 3 selected. imageInt = " + imageInt);
+            //Log.d("test", "dice 3 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice4){
             diceNumberFour = new Random().nextInt(diceArrayImage.size()) + 1;
             int imageInt = diceArrayImage.get(diceNumberFour - 1);
             diceButton4.setImageResource(imageInt);
-            Log.d("test", "dice 4 selected. imageInt = " + imageInt);
+            //Log.d("test", "dice 4 selected. imageInt = " + imageInt);
         }
         if(!isSelectedDice5){
             diceNumberFive = new Random().nextInt(diceArrayImage.size()) + 1;
             int imageInt = diceArrayImage.get(diceNumberFive - 1);
             diceButton5.setImageResource(imageInt);
-            Log.d("test", "dice 5 selected. imageInt = " + imageInt);
+            //Log.d("test", "dice 5 selected. imageInt = " + imageInt);
         }
 
         if(!isMuted){
@@ -409,7 +417,10 @@ public class RollScreenActivity extends AppCompatActivity {
                  diceNumberOne == diceNumberFour &&
                  diceNumberOne == diceNumberFive){
 
-                //todo add delay { // play sfx yahtzee }
+                //delay .6 sec for roll sound to finish and then play yahtzee sfx
+                new Handler(Looper.getMainLooper()).postDelayed(()
+                        -> yahtzeeSFXPlayer.start(),
+                        600); //Millisecond 1000 = 1 sec
 
                 Log.d("test", "yahtzee sound after delay");
             }

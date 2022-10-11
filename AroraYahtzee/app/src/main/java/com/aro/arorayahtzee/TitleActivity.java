@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +23,7 @@ public class TitleActivity extends AppCompatActivity {
 
     Boolean isMuted = false;
 
-    //todo audioplayer
-    //AudioPlayer? titleSoundPlayer = new AudioPlayer()?
+    MediaPlayer titleSoundPlayer;
 
     
 
@@ -40,16 +40,17 @@ public class TitleActivity extends AppCompatActivity {
         pref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = pref.edit();
 
+        //todo record more title sounds / edit dice clip to clean up start and end
+        titleSoundPlayer = MediaPlayer.create(this, R.raw.dice3);
+
         resetGameData();
 
-        //todo set isMuted from defaults
-        //isMuted =
-
-        //todo if sound exists set it to audioplayer
-
+        //set isMuted from defaults
+        isMuted = pref.getBoolean("titleScreenMute", false);
 
         if(!isMuted){
-            //todo playsound from titleSoundPlayer
+            //play sound from titleSoundPlayer
+            titleSoundPlayer.start();
         }
 
         newGameButton.setOnClickListener((View v) -> {

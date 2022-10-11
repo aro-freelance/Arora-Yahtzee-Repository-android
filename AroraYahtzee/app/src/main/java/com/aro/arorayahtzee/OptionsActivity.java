@@ -61,11 +61,11 @@ public class OptionsActivity extends AppCompatActivity {
 
         if(isTitleSoundMuted){
             muteTitleButton.setBackgroundColor(Color.RED);
-            muteTitleButton.setText("Unmute Sound Effects");
+            muteTitleButton.setText("Unmute Title Screen");
             muteTitleButton.setTextColor(Color.WHITE);
         } else {
             muteTitleButton.setBackgroundColor(Color.GREEN);
-            muteTitleButton.setText("Mute Sound Effects");
+            muteTitleButton.setText("Mute Title Screen");
             muteTitleButton.setTextColor(Color.BLACK);
         }
 

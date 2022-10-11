@@ -60,7 +60,6 @@ public class HighScoreActivity extends AppCompatActivity {
         highScoreList.add(0, new SavedScoreModel(0, "name1"));
 
         adapter = new AdapterHighScoreScreen(this, highScoreList);
-        //adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
 
@@ -120,7 +119,7 @@ public class HighScoreActivity extends AppCompatActivity {
         //todo sort?
 
         //reload data in recyclerview
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
 
@@ -140,13 +139,14 @@ public class HighScoreActivity extends AppCompatActivity {
     private void compareToHighScores(){
 
         //this counts the number of scores that are beaten by the new one
-        for (int i = 0; i < highScoreList.size(); i++) {
+        for (int i = 0; i < highScoreList.size() - 1; i++) {
 
             SavedScoreModel highScore = highScoreList.get(i);
 
             if(newScore > highScore.score){
                 isNewHighScore = true;
                 numberNewScoreIsHigherThan = numberNewScoreIsHigherThan + 1;
+                Log.d("test", "High Score: numberhigherthan = " + numberNewScoreIsHigherThan);
             }
         }
 
@@ -164,6 +164,7 @@ public class HighScoreActivity extends AppCompatActivity {
     private void showNewHighScoreUI(){
         //edittext for entering name
         EditText nameEditText = new EditText(this);
+        nameEditText.setPadding(8,8,8,8);
 
         new AlertDialog.Builder(this)
                 .setTitle("Score: " + newScore)
@@ -188,7 +189,7 @@ public class HighScoreActivity extends AppCompatActivity {
                         saveNewHighScores();
 
                         //reload data in recyclerview
-                        adapter.notifyDataSetChanged();
+                        recyclerView.getAdapter().notifyDataSetChanged();
 
                     }
                 })
@@ -213,6 +214,8 @@ public class HighScoreActivity extends AppCompatActivity {
 
 
     private void saveNewHighScores(){
+
+        Log.d("test", "HighScore: save method: list size " + highScoreList.size());
 
         editor.putInt("highscore1", highScoreList.get(0).score);
         editor.putString("highscore1name", highScoreList.get(0).playerName);
