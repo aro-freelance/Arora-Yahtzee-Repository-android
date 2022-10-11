@@ -11,12 +11,12 @@
         android:id="@+id/title_textview_optionsscreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Options"
         android:textColor="#FFFFFF"
         android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/guideline_top_options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,8 +35,8 @@
         <Button
             android:id="@+id/mute_title_button_optionsscreen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:text="Mute Title Screen"
             app:cornerRadius="15dp"
@@ -46,8 +46,8 @@
         <Button
             android:id="@+id/mute_sound_fx_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:text="Mute Sound Effect"
             app:cornerRadius="15dp"
@@ -57,8 +57,8 @@
         <Button
             android:id="@+id/reset_high_score_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="1"
             android:text="Reset High Score"
             app:cornerRadius="15dp"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="650dp"
+        app:layout_constraintGuide_begin="398dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -80,13 +80,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="Close"
         app:cornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top_options"
@@ -94,7 +98,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="150dp"
+        app:layout_constraintGuide_begin="80dp"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

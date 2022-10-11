@@ -434,12 +434,14 @@ public class RollScreenActivity extends AppCompatActivity {
         intent.putExtra("diceValue5", diceNumberFive);
         intent.putExtra("rollNumber", rollNumber);
         startActivity(intent);
+        finish();
     }
 
     private void quitToTitle(){
         //go to title
         Intent intent = new Intent(this, TitleActivity.class);
         startActivity(intent);
+        finish();
     }
 
 

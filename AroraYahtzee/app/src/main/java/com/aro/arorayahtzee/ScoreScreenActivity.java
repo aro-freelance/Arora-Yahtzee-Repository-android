@@ -1115,6 +1115,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
         //go to roll screen
         Intent intent = new Intent(this, RollScreenActivity.class);
         startActivity(intent);
+        finish();
     }
 
 
@@ -1131,6 +1132,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
             //close this screen and go to roll screen
             Intent intent = new Intent(this, RollScreenActivity.class);
             startActivity(intent);
+            finish();
 
         }
         else{
@@ -1202,6 +1204,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
             //go to high score screen
             Intent intent = new Intent(this, HighScoreActivity.class);
             startActivity(intent);
+            finish();
 
         } else {
             goToRollScreen();
