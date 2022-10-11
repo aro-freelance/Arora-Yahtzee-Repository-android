@@ -77,7 +77,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
     Integer sNumberOfYahtzees = 0;
 
     //stored isCompleted bool values
-
     Boolean sIsOnesCompleted = false;
     Boolean sIsTwosCompleted = false;
     Boolean sIsThreesCompleted = false;
@@ -848,6 +847,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
                 if(isYahtzee){
                     isMultiYahtzee = true;
                     Log.d("test", "is multi yahtzee = " + isMultiYahtzee);
+                    //todo implement multi yahtzee
                     //todo show message to user and let them select where to put it (681 on xcode file)
 
 
@@ -1134,6 +1134,11 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
             //close this screen and go to roll screen
             Intent intent = new Intent(this, RollScreenActivity.class);
+            intent.putExtra("diceValue1", diceValue1);
+            intent.putExtra("diceValue2", diceValue2);
+            intent.putExtra("diceValue3", diceValue3);
+            intent.putExtra("diceValue4", diceValue4);
+            intent.putExtra("diceValue5", diceValue5);
             startActivity(intent);
             finish();
 

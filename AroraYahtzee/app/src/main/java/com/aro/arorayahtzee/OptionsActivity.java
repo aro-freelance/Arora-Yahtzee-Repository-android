@@ -48,7 +48,6 @@ public class OptionsActivity extends AppCompatActivity {
         isSoundFXMuted = pref.getBoolean("soundEffectMute", false);
         isTitleSoundMuted = pref.getBoolean("titleScreenMute", false);
 
-        //todo check that these set UI correctly based on stored bools
         if(isSoundFXMuted){
             muteSFXButton.setBackgroundColor(Color.RED);
             muteSFXButton.setText("Unmute Sound Effects");

@@ -8,8 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -83,6 +81,7 @@ public class RollScreenActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +104,6 @@ public class RollScreenActivity extends AppCompatActivity {
         editor = pref.edit();
 
         //set dice images to array
-
         diceArrayImage.add(R.drawable.dice1);
         diceArrayImage.add(R.drawable.dice2);
         diceArrayImage.add(R.drawable.dice3);
@@ -113,9 +111,16 @@ public class RollScreenActivity extends AppCompatActivity {
         diceArrayImage.add(R.drawable.dice5);
         diceArrayImage.add(R.drawable.dice6);
 
-        //////
+        diceButton1.setEnabled(false);
+        diceButton2.setEnabled(false);
+        diceButton3.setEnabled(false);
+        diceButton4.setEnabled(false);
+        diceButton5.setEnabled(false);
 
+        //if score screen was cancelled this will be > 0
+        rollNumber = pref.getInt("rollNumber", 0);
 
+        //new set of dice rolls
         if(rollNumber == 0){
             diceButton1.setVisibility(View.INVISIBLE);
             diceButton2.setVisibility(View.INVISIBLE);
@@ -124,18 +129,39 @@ public class RollScreenActivity extends AppCompatActivity {
             diceButton5.setVisibility(View.INVISIBLE);
             scoreCardButton.setVisibility(View.INVISIBLE);
         }
+        //user returned from looking at the scorecard. restore their last dice roll to UI
+        else {
+            Bundle bundle = getIntent().getExtras();
+            // get intent bundle from score activity
+            if (bundle != null) {
+                diceNumberOne = bundle.getInt("diceValue1");
+                diceNumberTwo = bundle.getInt("diceValue2");
+                diceNumberThree = bundle.getInt("diceValue3");
+                diceNumberFour = bundle.getInt("diceValue4");
+                diceNumberFive = bundle.getInt("diceValue5");
 
-        scoreTextView.setText("");
+                int imageInt1 = diceArrayImage.get(diceNumberOne - 1);
+                diceButton1.setImageResource(imageInt1);
+                int imageInt2 = diceArrayImage.get(diceNumberTwo - 1);
+                diceButton2.setImageResource(imageInt2);
+                int imageInt3 = diceArrayImage.get(diceNumberThree - 1);
+                diceButton3.setImageResource(imageInt3);
+                int imageInt4 = diceArrayImage.get(diceNumberFour - 1);
+                diceButton4.setImageResource(imageInt4);
+                int imageInt5 = diceArrayImage.get(diceNumberFive - 1);
+                diceButton5.setImageResource(imageInt5);
 
-        diceButton1.setEnabled(false);
-        diceButton2.setEnabled(false);
-        diceButton3.setEnabled(false);
-        diceButton4.setEnabled(false);
-        diceButton5.setEnabled(false);
+            }
+            // intent bundle is null
+            else {
 
-        updateScore();
+                Log.d("test", "RollScreen: ERROR failed to load intent bundle from score activity");
+            }
+        }
 
-        rollNumber = pref.getInt("rollNumber", 0);
+        updateScoreTextUI();
+
+
 
         //initialize roll sound
         rollsSFXPlayer = MediaPlayer.create(this, R.raw.dice4);
@@ -179,7 +205,7 @@ public class RollScreenActivity extends AppCompatActivity {
 
     }
 
-    private void updateScore(){
+    private void updateScoreTextUI(){
         //get stored score
         score = pref.getInt("score", 0);
 
