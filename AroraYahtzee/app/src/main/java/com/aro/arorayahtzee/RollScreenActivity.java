@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -79,6 +80,10 @@ public class RollScreenActivity extends AppCompatActivity {
 
     Boolean isMuted = false;
 
+    Integer alphaValueOfSelection = 100;
+    Integer redValueOfSelection = 50;
+    Integer greenValueOfSelection = 50;
+    Integer blueValueOfSelection = 50;
 
 
 
@@ -151,6 +156,14 @@ public class RollScreenActivity extends AppCompatActivity {
                 int imageInt5 = diceArrayImage.get(diceNumberFive - 1);
                 diceButton5.setImageResource(imageInt5);
 
+                diceButton1.setEnabled(true);
+                diceButton2.setEnabled(true);
+                diceButton3.setEnabled(true);
+                diceButton4.setEnabled(true);
+                diceButton5.setEnabled(true);
+
+                //todo save and restore selection status of dice?
+
             }
             // intent bundle is null
             else {
@@ -159,7 +172,7 @@ public class RollScreenActivity extends AppCompatActivity {
             }
         }
 
-        updateScoreTextUI();
+        updateScoreUIText();
 
 
 
@@ -205,7 +218,7 @@ public class RollScreenActivity extends AppCompatActivity {
 
     }
 
-    private void updateScoreTextUI(){
+    private void updateScoreUIText(){
         //get stored score
         score = pref.getInt("score", 0);
 
@@ -228,7 +241,7 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice1){
                         isSelectedDice1 = false;
 
-                        diceButton1.setBackgroundColor(Color.BLACK);
+                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
                         if(!selectedButtonArray.contains(diceButton1)){
                             selectedButtonArray.add(diceButton1);
@@ -238,7 +251,8 @@ public class RollScreenActivity extends AppCompatActivity {
                     } else {
                         isSelectedDice1 = true;
 
-                        diceButton1.setBackgroundColor(Color.TRANSPARENT);
+                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(
+                                alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
                         selectedButtonArray.remove(diceButton1);
                         selectedValuesArray.remove(diceNumberOne);
@@ -250,7 +264,7 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice2){
                         isSelectedDice2 = false;
 
-                        diceButton2.setBackgroundColor(Color.BLACK);
+                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
                         if(!selectedButtonArray.contains(diceButton2)){
                             selectedButtonArray.add(diceButton2);
@@ -260,7 +274,8 @@ public class RollScreenActivity extends AppCompatActivity {
                     } else {
                         isSelectedDice2 = true;
 
-                        diceButton2.setBackgroundColor(Color.TRANSPARENT);
+                        diceButton2.setImageTintList(ColorStateList.valueOf(Color.argb(
+                                alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
                         selectedButtonArray.remove(diceButton2);
                         selectedValuesArray.remove(diceNumberTwo);
@@ -272,7 +287,7 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice3){
                         isSelectedDice3 = false;
 
-                        diceButton3.setBackgroundColor(Color.BLACK);
+                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
                         if(!selectedButtonArray.contains(diceButton3)){
                             selectedButtonArray.add(diceButton3);
@@ -282,7 +297,8 @@ public class RollScreenActivity extends AppCompatActivity {
                     } else {
                         isSelectedDice3 = true;
 
-                        diceButton3.setBackgroundColor(Color.TRANSPARENT);
+                        diceButton3.setImageTintList(ColorStateList.valueOf(Color.argb(
+                                alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
                         selectedButtonArray.remove(diceButton3);
                         selectedValuesArray.remove(diceNumberThree);
@@ -294,7 +310,7 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice4){
                         isSelectedDice4 = false;
 
-                        diceButton4.setBackgroundColor(Color.BLACK);
+                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
                         if(!selectedButtonArray.contains(diceButton4)){
                             selectedButtonArray.add(diceButton4);
@@ -304,7 +320,8 @@ public class RollScreenActivity extends AppCompatActivity {
                     } else {
                         isSelectedDice4 = true;
 
-                        diceButton4.setBackgroundColor(Color.TRANSPARENT);
+                        diceButton4.setImageTintList(ColorStateList.valueOf(Color.argb(
+                                alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
                         selectedButtonArray.remove(diceButton4);
                         selectedValuesArray.remove(diceNumberFour);
@@ -316,7 +333,7 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice5){
                         isSelectedDice5 = false;
 
-                        diceButton5.setBackgroundColor(Color.BLACK);
+                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
                         if(!selectedButtonArray.contains(diceButton5)){
                             selectedButtonArray.add(diceButton5);
@@ -326,7 +343,8 @@ public class RollScreenActivity extends AppCompatActivity {
                     } else {
                         isSelectedDice5 = true;
 
-                        diceButton5.setBackgroundColor(Color.TRANSPARENT);
+                        diceButton5.setImageTintList(ColorStateList.valueOf(Color.argb(
+                                alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
                         selectedButtonArray.remove(diceButton5);
                         selectedValuesArray.remove(diceNumberFive);

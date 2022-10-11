@@ -87,6 +87,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:tint="#00000000"
+                tools:ignore="UseAppTint"
                 tools:src="@drawable/dice1" />
 
             <ImageButton
@@ -95,6 +97,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:tint="#00000000"
+                tools:ignore="UseAppTint"
                 tools:src="@drawable/dice1" />
         </LinearLayout>
 
@@ -104,6 +108,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
+            android:tint="#00000000"
+            tools:ignore="UseAppTint"
             tools:src="@drawable/dice1" />
 
         <LinearLayout
@@ -119,6 +125,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:tint="#00000000"
+                tools:ignore="UseAppTint"
                 tools:src="@drawable/dice1" />
 
             <ImageButton
@@ -127,6 +135,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/transparent"
+                android:tint="#00000000"
+                tools:ignore="UseAppTint"
                 tools:src="@drawable/dice1" />
         </LinearLayout>
     </LinearLayout>
