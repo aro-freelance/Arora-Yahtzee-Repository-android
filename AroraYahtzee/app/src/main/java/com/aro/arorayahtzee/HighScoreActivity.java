@@ -116,7 +116,7 @@ public class HighScoreActivity extends AppCompatActivity {
 //            saveNewHighScores();
 //        }
 
-        //todo sort?
+        //todo TEST sort?  ... should not be needed...
 
         //reload data in recyclerview
         recyclerView.getAdapter().notifyDataSetChanged();

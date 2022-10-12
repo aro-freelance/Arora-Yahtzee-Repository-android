@@ -40,7 +40,7 @@ public class TitleActivity extends AppCompatActivity {
         pref = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         editor = pref.edit();
 
-        //todo record more title sounds / edit dice clip to clean up start and end
+        //todo UPDATE record more title sounds / edit dice clip to clean up start and end
         titleSoundPlayer = MediaPlayer.create(this, R.raw.dice3);
 
         resetGameData();

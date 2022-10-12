@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +23,11 @@ import java.util.Collections;
 
 public class ScoreScreenActivity extends AppCompatActivity {
 
-    //todo bug with yahtzee and chance display. showing 0 after a score is recorded
-    //todo on cancel pressed (or back?) send the dice values back to roll screen and set dice to the appropriate images
-
+    //todo BUG selection issue. after going to scorecard (not sure if that detail is important)
+    // when I dicebutton1 it selected and unselected dicebutton5. other dicebuttons as well were,
+    // at least based on the UI tint indicator not selecting/unselecting properly
+    // while testing this it seemed related to having all selected possibly...
+    // was working fine until i selected all 5
 
     public static final String MyPREFERENCES = "myprefs";
     SharedPreferences pref;
@@ -366,9 +370,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
             }
         }
 
-        //todo upper and lower total is updating incorrectly on scorecard screen.
-        // 1. endlessly adds when selecting and  reselecting
-        // 2. does not keep previous score and add when displaying
 
         upperTotal = sOnes + sTwos + sThrees + sFours + sFives + sSixes;
 
@@ -845,10 +846,21 @@ public class ScoreScreenActivity extends AppCompatActivity {
             //but player has another yahtzee
             if(sYahtzee > 0){
                 if(isYahtzee){
+                    //this is the thing that accounts for multiyahtzee when selection is made
                     isMultiYahtzee = true;
                     Log.d("test", "is multi yahtzee = " + isMultiYahtzee);
-                    //todo implement multi yahtzee
-                    //todo show message to user and let them select where to put it (681 on xcode file)
+                    //todo TEST multi yahtzee. is dispatch que needed?
+                    //show message to user and let them select where to put it
+                    new AlertDialog.Builder(this)
+                            .setTitle("Multiple Yahtzees!")
+                            .setMessage("You have rolled another yahtzee! Select a category. " +
+                                    "That category will be set to completed and you will get points " +
+                                    "for another yahtzee instead.")
+
+                            // Specifying a listener allows you to take an action before dismissing the dialog.
+                            // The dialog is automatically dismissed when a dialog button is clicked.
+                            .setPositiveButton("OK", null)
+                            .show();
 
 
                 }
@@ -1044,7 +1056,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
             }
             if(scoreCardArray.get(13).isSelected){
                 //store value
-                editor.putInt("isYahtzeeValue", scoreCardArray.get(13).value);
+                editor.putInt("yahtzeeValue", scoreCardArray.get(13).value);
                 //store isComplete
                 editor.putBoolean("isYahtzeeComplete", true);
                 editor.apply();
@@ -1054,7 +1066,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
             }
             if(scoreCardArray.get(14).isSelected){
                 //store value
-                editor.putInt("isChanceValue", scoreCardArray.get(14).value);
+                editor.putInt("chanceValue", scoreCardArray.get(14).value);
                 //store isComplete
                 editor.putBoolean("isChanceComplete", true);
                 editor.apply();
@@ -1171,11 +1183,11 @@ public class ScoreScreenActivity extends AppCompatActivity {
             rollScreenActivity.rollNumber = 0;
             record();
 
-            //todo close this screen and open roll screen
+            //t-odo close this screen and open roll screen
         }
 
         else {
-            //todo store values
+            //t-odo store values
         }
 
 

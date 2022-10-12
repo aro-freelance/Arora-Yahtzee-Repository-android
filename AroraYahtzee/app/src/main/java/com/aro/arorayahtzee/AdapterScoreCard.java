@@ -105,28 +105,51 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
             //if it is NOT a multiyahtzee...
             if(!scoreScreenActivity.isMultiYahtzee){
 
+                //todo BUG upper and lower total is updating incorrectly on scorecard screen.
+                // 1. endlessly adds when selecting and  reselecting
+                // 2. does not keep previous score and add when displaying
+                // ... it is now no longer counting up endlessly
+                // however after unselect it is not updating totals (on new selection it is)
+                // also would be good to update score at top right as selections are made... or remove it
+                // also it is not displaying updated score totals on second+ record
+                // (but score on back end is correct) just not displaying on scorecard right
 
                 //score update for unselect
-                if(scoreScreenActivity.selectedIndex >= 0){
+                Boolean isSelectionMade = pref.getBoolean("isSelectionMade", false);
+                Integer selectedIndex = pref.getInt("selectedIndexScoreCard", -1);
+                if(selectedIndex >= 0 && isSelectionMade){
+                    Log.d("test", "Adapter Scorecard: unselect. previous index = "
+                            + selectedIndex);
 
-
-                    if(scoreScreenActivity.selectedIndex < 6){
+                    if(selectedIndex < 6){
+                        Log.d("test", "Adapter Scorecard: PRE upperscore = "
+                                + scoreScreenActivity.upperTotal);
                          scoreScreenActivity.upperTotal =
                                 scoreScreenActivity.upperTotal -
-                                        scoreCardArray.get(scoreScreenActivity.selectedIndex).value;
+                                        scoreCardArray.get(selectedIndex).value;
+
+                        Log.d("test", "Adapter Scorecard: UPDATED upperscore = "
+                                + scoreScreenActivity.upperTotal);
 
                     } else {
+                        Log.d("test", "Adapter Scorecard: PRE lowerscore = "
+                                + scoreScreenActivity.lowerTotal);
                          scoreScreenActivity.lowerTotal =
                                 scoreScreenActivity.lowerTotal -
-                                        scoreCardArray.get(scoreScreenActivity.selectedIndex).value;
+                                        scoreCardArray.get(selectedIndex).value;
+                        Log.d("test", "Adapter Scorecard: UPDATED lowerscore = "
+                                + scoreScreenActivity.lowerTotal);
                        }
-                }
+                } else {
+                    Log.d("test", "Adapter Scorecard: is not unselect");
 
+                }
 
 
                 editor.putBoolean("isSelectionMade", true);
                 editor.putInt("selectedIndexScoreCard", viewHolder.getAdapterPosition());
                 editor.apply();
+
 
 
                 //loop through array and set the selected row
@@ -174,10 +197,14 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
 
             }
             //if is IS a multiyahtzee
+            //todo TEST multiyahtzee
             else{
 
+                //todo unselect BUG
                 //score update for unselect
-                if(scoreScreenActivity.selectedIndex >= 0){
+                Boolean isSelectionMade = pref.getBoolean("isSelectionMade", false);
+                Integer selectedIndex = pref.getInt("selectedIndexScoreCard", -1);
+                if(selectedIndex >= 0 && isSelectionMade){
                     //if there is a previous selection... remove it from the totals before adding new selection to totals
                     scoreScreenActivity.lowerTotal = scoreScreenActivity.lowerTotal - 100;
                 }
@@ -221,7 +248,7 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
             }
 
 
-            //update recyclerview todo check and update. this is giving null object
+            //update recyclerview todo TEST check and update. this is giving null object?
             this.notifyDataSetChanged();
 
 

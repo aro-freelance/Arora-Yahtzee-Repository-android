@@ -73,7 +73,7 @@ public class RollScreenActivity extends AppCompatActivity {
     MediaPlayer yahtzeeSFXPlayer;
 
 
-    //todo add music,
+    //todo UPDATE add music,
     // start() in onCreate
     // and add a music mute bool and button to options screen
     MediaPlayer musicPlayer;
@@ -162,7 +162,7 @@ public class RollScreenActivity extends AppCompatActivity {
                 diceButton4.setEnabled(true);
                 diceButton5.setEnabled(true);
 
-                //todo save and restore selection status of dice?
+                //todo UPDATE save and restore selection status of dice?
 
             }
             // intent bundle is null

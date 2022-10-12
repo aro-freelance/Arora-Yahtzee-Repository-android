@@ -66,7 +66,7 @@ public class AdapterHighScoreScreen extends RecyclerView.Adapter<AdapterHighScor
 
 
 
-    /* todo review this and update
+    /* todo TEST review this and update
 
     // inflates the row layout from xml when needed
     @Override
