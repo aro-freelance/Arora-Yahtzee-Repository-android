@@ -23,17 +23,10 @@ import java.util.Collections;
 
 public class ScoreScreenActivity extends AppCompatActivity {
 
-    //todo BUG selection issue. after going to scorecard (not sure if that detail is important)
-    // when I dicebutton1 it selected and unselected dicebutton5. other dicebuttons as well were,
-    // at least based on the UI tint indicator not selecting/unselecting properly
-    // while testing this it seemed related to having all selected possibly...
-    // was working fine until i selected all 5
-
     public static final String MyPREFERENCES = "myprefs";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    TextView scoreText;
     Button cancelButton;
     Button recordButton;
     RecyclerView recyclerView;
@@ -120,7 +113,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_screen);
 
-        scoreText = findViewById(R.id.score_textView_scorescreen);
         cancelButton = findViewById(R.id.cancel_button_scorescreen);
         recordButton = findViewById(R.id.record_button_scorescreen);
 
@@ -382,7 +374,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
         grandTotal = upperTotal + lowerTotal;
 
-        scoreText.setText("Score : " + grandTotal);
 
         scoreCardArray.clear();
         scoreCardArray.add(0, new ScoreLineModel("Ones", sOnes, false,

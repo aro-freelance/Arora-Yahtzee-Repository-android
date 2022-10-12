@@ -24,6 +24,13 @@ import java.util.Random;
 
 public class RollScreenActivity extends AppCompatActivity {
 
+    //todo BUG selection issue. after going to scorecard (not sure if that detail is important)
+    // when I dicebutton1 it selected and unselected dicebutton5. other dicebuttons as well were,
+    // at least based on the UI tint indicator not selecting/unselecting properly
+    // while testing this it seemed related to having all selected possibly...
+    // was working fine until i selected all 5
+    // NEXT----- use Logs in the selection blocks to debug...
+
     public static final String MyPREFERENCES = "myprefs";
 
     ImageButton diceButton1;
@@ -240,10 +247,10 @@ public class RollScreenActivity extends AppCompatActivity {
 
                         diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
-                        if(!selectedButtonArray.contains(diceButton1)){
-                            selectedButtonArray.add(diceButton1);
-                            selectedValuesArray.add(diceNumberOne);
-                        }
+
+                        selectedButtonArray.remove(diceButton1);
+                        selectedValuesArray.remove(diceNumberOne);
+
 
                     } else {
                         isSelectedDice1 = true;
@@ -251,8 +258,11 @@ public class RollScreenActivity extends AppCompatActivity {
                         diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(
                                 alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
-                        selectedButtonArray.remove(diceButton1);
-                        selectedValuesArray.remove(diceNumberOne);
+
+                        if(!selectedButtonArray.contains(diceButton1)){
+                            selectedButtonArray.add(diceButton1);
+                            selectedValuesArray.add(diceNumberOne);
+                        }
                     }
 
                     break;
@@ -261,12 +271,10 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice2){
                         isSelectedDice2 = false;
 
-                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
+                        diceButton2.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
-                        if(!selectedButtonArray.contains(diceButton2)){
-                            selectedButtonArray.add(diceButton2);
-                            selectedValuesArray.add(diceNumberTwo);
-                        }
+                        selectedButtonArray.remove(diceButton2);
+                        selectedValuesArray.remove(diceNumberTwo);
 
                     } else {
                         isSelectedDice2 = true;
@@ -274,8 +282,11 @@ public class RollScreenActivity extends AppCompatActivity {
                         diceButton2.setImageTintList(ColorStateList.valueOf(Color.argb(
                                 alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
-                        selectedButtonArray.remove(diceButton2);
-                        selectedValuesArray.remove(diceNumberTwo);
+
+                        if(!selectedButtonArray.contains(diceButton2)){
+                            selectedButtonArray.add(diceButton2);
+                            selectedValuesArray.add(diceNumberTwo);
+                        }
                     }
 
                     break;
@@ -284,12 +295,10 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice3){
                         isSelectedDice3 = false;
 
-                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
+                        diceButton3.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
-                        if(!selectedButtonArray.contains(diceButton3)){
-                            selectedButtonArray.add(diceButton3);
-                            selectedValuesArray.add(diceNumberThree);
-                        }
+                        selectedButtonArray.remove(diceButton3);
+                        selectedValuesArray.remove(diceNumberThree);
 
                     } else {
                         isSelectedDice3 = true;
@@ -297,8 +306,11 @@ public class RollScreenActivity extends AppCompatActivity {
                         diceButton3.setImageTintList(ColorStateList.valueOf(Color.argb(
                                 alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
-                        selectedButtonArray.remove(diceButton3);
-                        selectedValuesArray.remove(diceNumberThree);
+
+                        if(!selectedButtonArray.contains(diceButton3)){
+                            selectedButtonArray.add(diceButton3);
+                            selectedValuesArray.add(diceNumberThree);
+                        }
                     }
 
                     break;
@@ -307,12 +319,10 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice4){
                         isSelectedDice4 = false;
 
-                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
+                        diceButton4.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
-                        if(!selectedButtonArray.contains(diceButton4)){
-                            selectedButtonArray.add(diceButton4);
-                            selectedValuesArray.add(diceNumberFour);
-                        }
+                        selectedButtonArray.remove(diceButton4);
+                        selectedValuesArray.remove(diceNumberFour);
 
                     } else {
                         isSelectedDice4 = true;
@@ -320,8 +330,11 @@ public class RollScreenActivity extends AppCompatActivity {
                         diceButton4.setImageTintList(ColorStateList.valueOf(Color.argb(
                                 alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
-                        selectedButtonArray.remove(diceButton4);
-                        selectedValuesArray.remove(diceNumberFour);
+
+                        if(!selectedButtonArray.contains(diceButton4)){
+                            selectedButtonArray.add(diceButton4);
+                            selectedValuesArray.add(diceNumberFour);
+                        }
                     }
 
                     break;
@@ -330,12 +343,10 @@ public class RollScreenActivity extends AppCompatActivity {
                     if(isSelectedDice5){
                         isSelectedDice5 = false;
 
-                        diceButton1.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
+                        diceButton5.setImageTintList(ColorStateList.valueOf(Color.argb(0, 0, 0, 0)));
 
-                        if(!selectedButtonArray.contains(diceButton5)){
-                            selectedButtonArray.add(diceButton5);
-                            selectedValuesArray.add(diceNumberFive);
-                        }
+                        selectedButtonArray.remove(diceButton5);
+                        selectedValuesArray.remove(diceNumberFive);
 
                     } else {
                         isSelectedDice5 = true;
@@ -343,8 +354,11 @@ public class RollScreenActivity extends AppCompatActivity {
                         diceButton5.setImageTintList(ColorStateList.valueOf(Color.argb(
                                 alphaValueOfSelection, redValueOfSelection, greenValueOfSelection, blueValueOfSelection)));
 
-                        selectedButtonArray.remove(diceButton5);
-                        selectedValuesArray.remove(diceNumberFive);
+
+                        if(!selectedButtonArray.contains(diceButton5)){
+                            selectedButtonArray.add(diceButton5);
+                            selectedValuesArray.add(diceNumberFive);
+                        }
                     }
 
                     break;

@@ -63,19 +63,4 @@
             app:cornerRadius="15dp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/score_textView_scorescreen"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="bottom|end"
-        android:padding="8dp"
-        android:text="Score : 0"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_top_scorescreen"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
