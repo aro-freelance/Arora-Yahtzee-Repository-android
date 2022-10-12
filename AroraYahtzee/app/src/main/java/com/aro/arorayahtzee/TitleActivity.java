@@ -123,6 +123,7 @@ public class TitleActivity extends AppCompatActivity {
         editor.remove("isSelectionMade");
         editor.remove("selectedIndexScoreCard");
         editor.remove("rollNumber");
+        editor.remove("isMultiYahtzee");
         editor.remove("score");
         editor.apply();
 

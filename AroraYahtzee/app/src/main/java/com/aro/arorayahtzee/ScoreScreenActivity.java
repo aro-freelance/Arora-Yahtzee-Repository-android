@@ -928,6 +928,8 @@ public class ScoreScreenActivity extends AppCompatActivity {
         scoreCardArray.add(17, new ScoreLineModel("Grand Total", grandTotal, false,
                 false, "description", true, false));
 
+        adapter.notifyDataSetChanged();
+
 
     }
 
@@ -1077,6 +1079,7 @@ public class ScoreScreenActivity extends AppCompatActivity {
 
             if(isMultiYahtzee){
                 editor.putInt("numberOfYahtzeesValue", sNumberOfYahtzees);
+                editor.putBoolean("isMultiYahtzee", isMultiYahtzee);
                 editor.apply();
                 cNumberOfYahtzees = scoreCardArray.get(15).value;
             } else {
@@ -1231,9 +1234,6 @@ public class ScoreScreenActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
 }

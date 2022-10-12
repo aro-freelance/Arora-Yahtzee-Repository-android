@@ -24,13 +24,27 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
     public static final String MyPREFERENCES = "myprefs";
 
 
-    ScoreScreenActivity scoreScreenActivity = new ScoreScreenActivity();
-
-
     List<ScoreLineModel> scoreCardArray;
     private LayoutInflater mInflater;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+
+    int upperTotalPrevious;
+    int bonusPrevious;
+    int lowerTotalPrevious;
+    int grandTotalPrevious;
+    int numberOfYahtzeesPrevious;
+
+    int upperTotal;
+    int bonus;
+    int lowerTotal;
+    int grandTotal;
+    int numberOfYahtzees;
+
+    boolean isFirstLoad = true;
+    boolean isUnSelect = false;
+    boolean isThereASelection = false;
+    boolean isMultiYahtzee = false;
 
 
     //constructor
@@ -40,6 +54,8 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
         this.pref = context.getSharedPreferences(MyPREFERENCES, context.MODE_PRIVATE);
         this.editor = pref.edit();
 
+        Log.d("test", "Adapter Scorecard constructor: Array size - "
+                + scoreCardArray.size());
 
     }
 
@@ -62,7 +78,6 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
     }
 
 
-    // Create new views (invoked by the layout manager)
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -73,7 +88,6 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
         return new ViewHolder(view);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
@@ -95,162 +109,99 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
         if(scoreCardArray.get(position).isDerivative){
             viewHolder.button.setVisibility(View.INVISIBLE);
         }
+        if(isFirstLoad){
+            //get stored scores
+            upperTotalPrevious = scoreCardArray.get(6).value;
+            bonusPrevious = scoreCardArray.get(7).value;
+            lowerTotalPrevious = scoreCardArray.get(16).value;
+            grandTotalPrevious = scoreCardArray.get(17).value;
+            isMultiYahtzee = pref.getBoolean("isMultiYahtzee", false);
+            numberOfYahtzeesPrevious = scoreCardArray.get(15).value;
+            isFirstLoad = false;
+        }
+
 
         //button clicked toggle the selected item, store the index of it,
         // and give the user a visual cue that it was selected
         viewHolder.button.setOnClickListener((View v) -> {
 
 
-
             //if it is NOT a multiyahtzee...
-            if(!scoreScreenActivity.isMultiYahtzee){
-
-                //todo BUG upper and lower total is updating incorrectly on scorecard screen.
-                // 1. endlessly adds when selecting and  reselecting
-                // 2. does not keep previous score and add when displaying
-                // ... it is now no longer counting up endlessly
-                // however after unselect it is not updating totals (on new selection it is)
-                // also would be good to update score at top right as selections are made... or remove it
-                // also it is not displaying updated score totals on second+ record
-                // (but score on back end is correct) just not displaying on scorecard right
-
-                //score update for unselect
-                Boolean isSelectionMade = pref.getBoolean("isSelectionMade", false);
-                Integer selectedIndex = pref.getInt("selectedIndexScoreCard", -1);
-                if(selectedIndex >= 0 && isSelectionMade){
-                    Log.d("test", "Adapter Scorecard: unselect. previous index = "
-                            + selectedIndex);
-
-                    if(selectedIndex < 6){
-                        Log.d("test", "Adapter Scorecard: PRE upperscore = "
-                                + scoreScreenActivity.upperTotal);
-                         scoreScreenActivity.upperTotal =
-                                scoreScreenActivity.upperTotal -
-                                        scoreCardArray.get(selectedIndex).value;
-
-                        Log.d("test", "Adapter Scorecard: UPDATED upperscore = "
-                                + scoreScreenActivity.upperTotal);
-
-                    } else {
-                        Log.d("test", "Adapter Scorecard: PRE lowerscore = "
-                                + scoreScreenActivity.lowerTotal);
-                         scoreScreenActivity.lowerTotal =
-                                scoreScreenActivity.lowerTotal -
-                                        scoreCardArray.get(selectedIndex).value;
-                        Log.d("test", "Adapter Scorecard: UPDATED lowerscore = "
-                                + scoreScreenActivity.lowerTotal);
-                       }
-                } else {
-                    Log.d("test", "Adapter Scorecard: is not unselect");
-
-                }
-
+            if(!isMultiYahtzee){
 
                 editor.putBoolean("isSelectionMade", true);
-                editor.putInt("selectedIndexScoreCard", viewHolder.getAdapterPosition());
+                editor.putInt("selectedIndexScoreCard", position);
                 editor.apply();
 
 
-
+                //HANDLE SELECT
                 //loop through array and set the selected row
                 int index = 0;
                 for (int i = 0; i < scoreCardArray.size(); i++) {
 
                     ScoreLineModel score = scoreCardArray.get(i);
 
+                    //unselect
                     if(score.isSelected){
                         score.isSelected = false;
+                        //something was unselected
+                        isUnSelect = true;
+
                     }
-                    //only run this if it wasn't just unselected...
-                    // otherwise it will immediately be reselected
+                    //select
                     else if(index == position){
                         score.isSelected = true;
+                        //something was selected
+                        isThereASelection = true;
                     }
-
 
                     index = index +1;
                 }
 
-                //update score based on selection
-                if(position < 6){
-                    scoreScreenActivity.upperTotal =
-                            scoreScreenActivity.upperTotal + scoreCardArray.get(position).value;
-                } else {
-                    scoreScreenActivity.lowerTotal =
-                            scoreScreenActivity.lowerTotal + scoreCardArray.get(position).value;
-                }
+                updateScoreBySelection(position);
 
-                if(scoreScreenActivity.upperTotal >= 63){
-                    scoreScreenActivity.bonus = 35;
-                } else {
-                    scoreScreenActivity.bonus = 0;
-                }
-
-                scoreScreenActivity.grandTotal = scoreScreenActivity.upperTotal
-                        + scoreScreenActivity.lowerTotal + scoreScreenActivity.bonus;
-
-
-                scoreCardArray.get(6).value = scoreScreenActivity.upperTotal;
-                scoreCardArray.get(7).value = scoreScreenActivity.bonus;
-                scoreCardArray.get(16).value = scoreScreenActivity.lowerTotal;
-                scoreCardArray.get(17).value = scoreScreenActivity.grandTotal;
 
             }
             //if is IS a multiyahtzee
             //todo TEST multiyahtzee
             else{
 
-                //todo unselect BUG
-                //score update for unselect
-                Boolean isSelectionMade = pref.getBoolean("isSelectionMade", false);
-                Integer selectedIndex = pref.getInt("selectedIndexScoreCard", -1);
-                if(selectedIndex >= 0 && isSelectionMade){
-                    //if there is a previous selection... remove it from the totals before adding new selection to totals
-                    scoreScreenActivity.lowerTotal = scoreScreenActivity.lowerTotal - 100;
-                }
-
-                scoreScreenActivity.isSelectionMade = true;
-                scoreScreenActivity.selectedIndex = viewHolder.getAdapterPosition();
                 //loop through array and set the selected row
                 int index = 0;
                 for (int i = 0; i < scoreCardArray.size(); i++) {
 
                     ScoreLineModel score = scoreCardArray.get(i);
 
+                    //unselect
                     if(score.isSelected){
                         score.isSelected = false;
+                        //something was unselected
+                        isUnSelect = true;
+
                     }
-                    //only run this if it wasn't just unselected...
-                    // otherwise it will immediately be reselected
+                    //select
                     else if(index == position){
                         score.isSelected = true;
+                        //something was selected
+                        isThereASelection = true;
                     }
 
                     index = index +1;
                 }
 
-                //set value of selected row to 0
-                scoreCardArray.get(position).value = 0;
+                updateScoreMultiYahtzee(position);
 
-                //the multi yahtzee score should go up by 50
-                scoreScreenActivity.sNumberOfYahtzees = scoreScreenActivity.sNumberOfYahtzees + 1;
-                scoreCardArray.get(15).value = scoreScreenActivity.sNumberOfYahtzees * 100;
-
-                //score totals should be updated
-                scoreScreenActivity.lowerTotal = scoreScreenActivity.lowerTotal + 100;
-                scoreScreenActivity.grandTotal = scoreScreenActivity.upperTotal
-                        + scoreScreenActivity.lowerTotal + scoreScreenActivity.bonus;
-
-                scoreCardArray.get(16).value = scoreScreenActivity.lowerTotal;
-                scoreCardArray.get(17).value = scoreScreenActivity.grandTotal;
-
-                scoreScreenActivity.scoreText.setText("Score: " + scoreScreenActivity.grandTotal);
             }
 
+            scoreCardArray.get(6).value = upperTotal;
+            scoreCardArray.get(7).value = bonus;
+            scoreCardArray.get(15).value = numberOfYahtzees * 100;
+            scoreCardArray.get(16).value = lowerTotal;
+            scoreCardArray.get(17).value = grandTotal;
 
-            //update recyclerview todo TEST check and update. this is giving null object?
+            // todo TEST check and update. this is giving null object?
+            //update recyclerview
             this.notifyDataSetChanged();
-
 
 
         });
@@ -263,6 +214,63 @@ public class AdapterScoreCard extends RecyclerView.Adapter<AdapterScoreCard.View
     @Override
     public int getItemCount() {
         return scoreCardArray.size();
+    }
+
+    private void updateScoreBySelection(int position){
+
+        //if there is a new selection, don't run the unselect block
+        if(isThereASelection){
+            isUnSelect = false;
+            isThereASelection = false;
+        }
+
+        //update score based on selection
+        if(isUnSelect){
+            //reset to previous values
+            upperTotal = upperTotalPrevious;
+            lowerTotal = lowerTotalPrevious;
+            //turn off the switch
+            isUnSelect = false;
+        }
+        else if(position < 6){
+            upperTotal = upperTotalPrevious + scoreCardArray.get(position).value;
+            lowerTotal = lowerTotalPrevious;
+        } else {
+            upperTotal = upperTotalPrevious;
+            lowerTotal = lowerTotalPrevious + scoreCardArray.get(position).value;
+        }
+
+        if(upperTotal >= 63){
+            bonus = 35;
+        } else {
+            bonus = 0;
+        }
+
+        grandTotal = upperTotal + lowerTotal + bonus;
+
+    }
+
+    private void updateScoreMultiYahtzee(int position){
+
+        //if there is a new selection, don't run the unselect block
+        if(isThereASelection){
+            isUnSelect = false;
+            isThereASelection = false;
+        }
+
+        //update score based on selection
+        if(isUnSelect){
+            numberOfYahtzees = numberOfYahtzeesPrevious;
+            lowerTotal = lowerTotalPrevious - 100;
+        } else {
+            //set value of selected row to 0
+            scoreCardArray.get(position).value = 0;
+            numberOfYahtzees = numberOfYahtzeesPrevious + 1;
+            lowerTotal = lowerTotalPrevious + 100;
+        }
+
+        grandTotal = upperTotalPrevious + lowerTotal + bonusPrevious;
+
     }
 
 
